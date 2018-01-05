@@ -42,7 +42,9 @@ package org.glassfish.soteria.test;
 
 import java.io.IOException;
 
+import fish.payara.cdi.test.RolesBean;
 import javax.annotation.security.DeclareRoles;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -62,6 +64,9 @@ public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @Inject
+    RolesBean rb;
+    
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -79,6 +84,11 @@ public class Servlet extends HttpServlet {
                     "web user has role \"bar\": " + request.isUserInRole("bar") + "<br>\n" +
                     "web user has role \"kaz\": " + request.isUserInRole("kaz") + "<br><br>\n" + 
 
+                    "web user in any role gets greeted here: " + rb.greeting() + "<br>\n" +
+                    "web user in role \"foo\" gets greeted here: " + rb.fooGreeting() + "<br>\n" +
+                    "web user in role \"bar\" gets greeted here: " + rb.barGreeting() + "<br>\n" +
+                    "web user in role \"kaz\" gets greeted here: " + rb.kazGreeting() + "<br>\n" +
+                            
                         
                     "<form method=\"POST\">" +
                         "<input type=\"hidden\" name=\"logout\" value=\"true\"  >" +
